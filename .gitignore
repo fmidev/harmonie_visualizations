@@ -1,0 +1,10 @@
+Python_MNWC_preop/
+__Arch/
+__Archive/
+test_code/
+old/
+__pycache__
+*.png
+*.jpeg
+*.pickle
+*.map
