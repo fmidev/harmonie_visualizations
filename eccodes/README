@@ -1,0 +1,14 @@
+here are local eccodes definitions from MEPS used in environment variable
+export ECCODES_DEFINITION_PATH=/data/hirlam2/eccodes/locals/gl/definitions/:/data/hirlam2/eccodes/locals/const/eccodes/definitions/:/data/hirlam2/eccodes/definitions/
+
+definitions contian: eslogin:/opt/fmi/eccodes/2.3.0-1/share/eccodes/definitions
+
+locals/gl contains /lustre/tmp/cooper/harmonie/MEPS_prod/lib/util/gl/definitions/
+locals/const contains /lustre/tmp/cooper/harmonie/MEPS_prod/lib/const/eccodes/definitions
+
+should be kept in sync with MEPS.
+
+Changes: 25 jan 2022
+updated to match new MEPS_prod (CF)
+
+
