@@ -3,6 +3,7 @@ __Arch/
 __Archive/
 test_code/
 old/
+backup/
 __pycache__
 *.png
 *.jpeg
