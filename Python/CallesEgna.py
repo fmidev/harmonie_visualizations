@@ -32,6 +32,7 @@ def findMessage(gribmap, shortNames='', typesOfLevel='', levels='', perturbation
             if verbose:
                 print('MATCH       :', message.shortName, message.indicatorOfParameter, message.typeOfLevel, message.level, message.perturbationNumber, message.stepType)
             matches.append(message)
+        #print(message.shortName, message.indicatorOfParameter, message.typeOfLevel, message.level, message.perturbationNumber, message.stepType)
     return(matches)
 
 def getDates(gid):

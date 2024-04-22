@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/lustre/home/hirlam2/.conda/envs/visualizations/bin/python3
 # -*- coding: utf-8 -*-
 ## system libraries
 from __future__ import print_function
@@ -15,7 +15,7 @@ import pickle
 #import epygram
 #import unittest2,os,tempfile,sys,glob,subprocess,multiprocessing,time,random
 import os,tempfile,sys,glob,subprocess,multiprocessing,time,random
-from pkg_resources import parse_version
+#from pkg_resources import parse_version
 #from cdo import Cdo,CDOException,CdoTempfileStore
 import  getopt 
 from eccodes import *
@@ -268,8 +268,8 @@ listAll =  False
 fcCycle=sys.argv[1]
 
 #singleMember='mbr000'
-fileKey='/metcoop/transfers/' + fcCycle + '/AI_*_*????????' + fcCycle + '*.grib*'
-wrkdir='/data/hirlam2/Python/' + fcCycle +'/'
+fileKey='/lustre/tmp/hirlam2/mepsdata/06/' + fcCycle + '/AI_*_*????????' + fcCycle + '*.grib*'
+wrkdir='/lustre/tmp/hirlam2/Visu_Harmonie/Python/' + fcCycle +'/'
 #fileKey=wrkdir + '/AI_*_*????????' + fcCycle + '*.grib' #just for testin
 gribMapPath=wrkdir+'gribmaps/'
 savePath=wrkdir+ 'aninc/'

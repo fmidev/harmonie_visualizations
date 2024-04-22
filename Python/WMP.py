@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+#!/lustre/home/hirlam2/.conda/envs/visualizations/bin/python3
 # -*- coding: utf-8 -*-
-## system libraries
+## system libraries 
 from __future__ import print_function
 import traceback
 from os.path import exists
@@ -14,11 +14,10 @@ import pickle
 #import epygram
 #import unittest2,os,tempfile,sys,glob,subprocess,multiprocessing,time,random
 import os,tempfile,sys,glob,subprocess,multiprocessing,time,random
-from pkg_resources import parse_version
+#from pkg_resources import parse_version
 #from cdo import Cdo,CDOException,CdoTempfileStore
 import  getopt 
 from eccodes import *
-
 ## matplotlib related
 import matplotlib as mpl
 mpl.use('Agg')
@@ -91,8 +90,7 @@ def mapCreator(template,mapPath='koe',makeMap=True, CustomMap=False,resolution='
         #       llcrnrlat=55,urcrnrlat=75,
         #        resolution=resolution)
         elif codes_get(template,"gridType")=='lambert': 
-                m3 =  ccrs.LambertConformal(central_longitude=codes_get(template,"LoVInDegrees"), central_latitude=codes_get(template,"LaDInDegrees"), false_easting=0.0, false_northing=0.0, secant_latitudes=None, 
-                        standard_parallels=[codes_get(template,"Latin1InDegrees"), codes_get(template,"Latin2InDegrees")], globe=None, cutoff=-30)
+                m3 =  ccrs.LambertConformal(central_longitude=codes_get(template,"LoVInDegrees"), central_latitude=codes_get(template,"LaDInDegrees"), false_easting=0.0, false_northing=0.0, standard_parallels=[codes_get(template,"Latin1InDegrees"), codes_get(template,"Latin2InDegrees")], globe=None, cutoff=-30)
                 
         elif codes_get(template,"gridType")=='rotated_ll':
                 m3 = 0#Basemap(
@@ -954,7 +952,7 @@ def mapDraw2(m3,lons,lats,elons,elats,xy,exy,pv,vartype,areatype='full',colormap
             clayers=None
             ticks=boundst.astype(int)
             cmap=plt.cm.gnuplot(np.linspace(0.,1,256))
-            cmap=plt.cm.get_cmap("gnuplot")
+            cmap=plt.colormaps.get_cmap("gnuplot")
             cmap.set_over('#c9ff27')
             norm = mcolors.BoundaryNorm(boundaries=bounds, ncolors=256)
             zorder=8
@@ -1150,7 +1148,10 @@ def mapDraw2(m3,lons,lats,elons,elats,xy,exy,pv,vartype,areatype='full',colormap
         cbar=layer[-1]
         extend=cbar[0];bounds=cbar[1];frac=cbar[2];pad=cbar[3];cbtitle=cbar[4];cbcolor=cbar[5];cbweight=cbar[6];cbrotation=cbar[7];cbva=cbar[8];cbha=cbar[9];ticklabels=cbar[10];weight=cbar[11];
         cbar=plt.colorbar(im,extend=extend,ticks=bounds, fraction=frac, pad=pad)
-        cbar.ax.set_title(cbtitle, color=cbcolor,weight=cbweight,rotation=cbrotation, va=cbva,ha=cbha)
+        if cbcolor is not None:
+            cbar.ax.set_title(cbtitle, color=cbcolor,weight=cbweight,rotation=cbrotation, va=cbva,ha=cbha)
+        else:
+            cbar.ax.set_title(cbtitle, weight=cbweight,rotation=cbrotation, va=cbva,ha=cbha)
         #print(ticklabels)
         cbar.set_ticklabels(ticklabels)
         #cbar.ax.set_yticklabels(ticklabels,weight=weight)
@@ -1196,8 +1197,8 @@ Mcol5=plt.cm.YlOrBr_r(linspace(0.5,1,127))
 MLHcolors=np.vstack((Mcol1,Mcol2,Mcol3,Mcol4,Mcol5))
 myMLHmap=mcolors.LinearSegmentedColormap.from_list('my_MLHmap',MLHcolors)
 myMLHmap.set_over('#ffffff')
-plt.register_cmap(cmap=myMLHmap)
-
+#plt.register_cmap(cmap=myMLHmap)
+plt.colormaps.register(myMLHmap)
 #creating a new colormap for Wmax
 
 windcolor1=plt.cm.rainbow(np.linspace(0.,1,255))
@@ -1206,7 +1207,8 @@ windcolor=np.vstack((windcolor2,windcolor1))
 cmap_wind=mcolors.LinearSegmentedColormap.from_list('my_colormapwind',windcolor)
 cmap_wind.set_over('#742802')
 cmap_wind.set_under('#fe019a')
-plt.register_cmap(cmap=cmap_wind)
+#plt.register_cmap(cmap=cmap_wind)
+plt.colormaps.register(cmap_wind)
 
 #creating a new colormap for Temperature
 color1=plt.cm.YlGn(np.linspace(0.05,1,40))
@@ -1219,7 +1221,8 @@ colors=np.vstack((color1,color2,color3,color4,color5,color6))
 mymap=mcolors.LinearSegmentedColormap.from_list('my_colormap',colors)
 mymap.set_under('#ff08e8')
 mymap.set_over('#000000')
-plt.register_cmap(cmap=mymap)
+#plt.register_cmap(cmap=mymap)
+plt.colormaps.register(mymap)
 
 #creating a new colormap for TemperatureZoom
 color11=plt.cm.YlGn(np.linspace(0.05,1,42))
@@ -1232,7 +1235,8 @@ colorsnew=np.vstack((color11,color22,color33,color44,color55,color66))
 mymapnew=mcolors.LinearSegmentedColormap.from_list('my_colormapnew',colorsnew)
 mymapnew.set_under('#ff08e8')
 mymapnew.set_over('#03012d')
-plt.register_cmap(cmap=mymapnew)
+#plt.register_cmap(cmap=mymapnew)
+plt.colormaps.register(mymapnew)
 
 #creating a new colormap for Windspeed
 Col1=plt.cm.RdBu(np.linspace(0.6,1,64))
@@ -1243,21 +1247,26 @@ Cols=np.vstack((Col1,Col2,Col3,Col4))
 cmapU=mcolors.LinearSegmentedColormap.from_list('my_colormapUwind',Cols)
 cmapU.set_over('#000000')
 cmapU.set_under('#61e160')
-plt.register_cmap(cmap=cmapU)
+#plt.register_cmap(cmap=cmapU)
+plt.colormaps.register(cmapU)
 
 #creating a new colormap for MU-CAPE
 cmapCAPE=mcolors.LinearSegmentedColormap.from_list('my_capecolormap',plt.cm.cubehelix_r(np.linspace(0.1,1,15)))
-plt.register_cmap(cmap=cmapCAPE)
+#plt.register_cmap(cmap=cmapCAPE)
+plt.colormaps.register(cmapCAPE)
 
 #creating a new colormap for RAIN
 rainColors=mcolors.LinearSegmentedColormap.from_list('my_rainColorMap',plt.cm.summer_r(np.linspace(0,1,18)))
 snowColors=mcolors.LinearSegmentedColormap.from_list('my_snowColorMap',plt.cm.cool(np.linspace(0,1,18)))
-plt.register_cmap(cmap=rainColors)
-plt.register_cmap(cmap=snowColors)
+#plt.register_cmap(cmap=rainColors)
+#plt.register_cmap(cmap=snowColors)
+plt.colormaps.register(rainColors)
+plt.colormaps.register(snowColors)
 
 #creating a new colormap for HAIL
 hailColors=mcolors.LinearSegmentedColormap.from_list('my_hailcolormap',plt.cm.hot_r(np.linspace(0.1,1,15)))
-plt.register_cmap(cmap=hailColors)
+#plt.register_cmap(cmap=hailColors)
+plt.colormaps.register(hailColors)
 
 #creating a new colormap for LIGHTNING
 licolor1=plt.cm.jet(np.linspace(0.,1,236))
@@ -1266,7 +1275,8 @@ licolor=np.vstack((licolor2,licolor1))
 cmap_light=mcolors.LinearSegmentedColormap.from_list('my_colormaplight',licolor)
 cmap_light.set_over('k')
 cmap_light.set_under('w')
-plt.register_cmap(cmap=cmap_light)
+#plt.register_cmap(cmap=cmap_light)
+plt.colormaps.register(cmap_light)
 
 ###############################################################################################
 ###############################################################################################
@@ -1277,9 +1287,9 @@ plt.register_cmap(cmap=cmap_light)
 fcCycle=sys.argv[1]
 fcStep=sys.argv[2]
 singleMember=sys.argv[3]
-
-fileKey='/metcoop/transfers/' + fcCycle + '/fc????????' + fcCycle + '+' + fcStep + 'grib2*_' + singleMember
-wrkdir='/data/hirlam2/Python/' + fcCycle +'/'
+fileKey='/lustre/tmp/hirlam2/metcoop_data/meps/fc????????' + fcCycle + '+' + fcStep + 'grib2*_' + singleMember
+#wrkdir='/data/hirlam2/Python/' + fcCycle +'/'
+wrkdir= fcCycle +'/'
 gribMapPath=wrkdir+'gribmaps/'
 savePath=wrkdir+ 'weathermaps/'
 
@@ -1312,7 +1322,6 @@ plt.ion()
 
 selected=modelVariable(mapPath=mapPath,resolution=mapResolution, makeMap=makeMap,labellocs=[1,0,0,1],
             keys=ReadKey(typesOfLevel=typesOfLevel, shortNames=shortNames, levels=levels, stepTypes=stepTypes))
-
 if selector == "gribMapping":
     gribFiles=[]
     for ifi,infile in enumerate(sort(glob.glob(fileKey))):
